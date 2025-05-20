@@ -1,6 +1,6 @@
 COMPILER=gcc
 CFLAGS=-pedantic -W -Wextra -std=c99
-LDFLAGS=
+LDFLAGS=-I include/
 
 APP_NAME=emu6502
 EXECUTABLE=bin/$(APP_NAME)
@@ -14,7 +14,7 @@ $(EXECUTABLE): $(OBJECTS)
 	$(COMPILER) $(LDFLAGS) -o $@ $^
 
 %.o: %.c $(HSOURCES)
-	$(COMPILER) $(CFLAGS) -c $< -o $@
+	$(COMPILER) $(CFLAGS) -c $< -o $@ $(LDFLAGS)
 
 clean:
 	rm -fr $(EXECUTABLE) $(OBJECTS)
