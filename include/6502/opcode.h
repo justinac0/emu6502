@@ -320,6 +320,13 @@ extern const U8 OPCODE_DEFINE(TYA, ADDR_IMPLICIT);
 
 typedef void (*OpcodeCB)(CPU *);
 
+typedef struct {
+    U8 opcode;
+    U8 cycles;
+    U8 nbytes;
+    OpcodeCB handler;
+} Instruction;
+
 typedef OpcodeCB OpcodeTable[OPCODE_LENGTH];
 
 void InitOpcodeTable(OpcodeTable table);
