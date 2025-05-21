@@ -3,11 +3,9 @@
 #include <stdio.h>
 #include <assert.h>
 
+U8 OPCODE_DEFINE(ADC, ADDR_IMMEDIATE) = 0x0;
+
 void NotImplemented(CPU *cpu) {
 
 }
 
-void InitOpcodeTable(OpcodeTable table) {
-    // setup instructions here
-    table[0x00] = NotImplemented;
-}

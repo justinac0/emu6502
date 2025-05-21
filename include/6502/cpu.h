@@ -3,9 +3,10 @@
 
 #include "types.h"
 
+
 typedef struct {
     U8 A;   // accumulator
-    U8 P;   // processor flags (7 bits)
+    U8 P;   // processor flags (NV-BDIZC)
     U8 S;   // stack pointer
     U8 X;   // index register
     U8 Y;   // index register

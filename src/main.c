@@ -25,9 +25,6 @@ void InitEmulator(Emulator *emu, size_t memsize) {
     emu->ram = (U8*)calloc(memsize, sizeof(U8));
     emu->ramsize = memsize;
     assert(emu->ram);
-
-    // initialize opcodes
-    InitOpcodeTable(emu->opcodes);
 }
 
 void UpdateEmulator(Emulator *emu) {
@@ -44,6 +41,8 @@ void TerminateEmulator(Emulator *emu) {
 int main(void) {
     Emulator emu;
     InitEmulator(&emu, DEFAULT_RAM_SIZE);
+
+    printf("%d\n", ADC_ADDR_IMMEDIATE);
 
     for (;;) {
         UpdateEmulator(&emu);
