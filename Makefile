@@ -11,10 +11,13 @@ HSOURCES = $(wildcard $(SRC)/*.h $(SRC)/*/*.h)
 OBJECTS=$(SOURCES:.c=.o)
 
 $(EXECUTABLE): $(OBJECTS)
+	mkdir -p bin
 	$(COMPILER) $(LDFLAGS) -o $@ $^
 
 %.o: %.c $(HSOURCES)
 	$(COMPILER) $(CFLAGS) -c $< -o $@ $(LDFLAGS)
+
+all: $(EXECUTABLE)
 
 clean:
 	rm -fr $(EXECUTABLE) $(OBJECTS)
