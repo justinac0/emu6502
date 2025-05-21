@@ -2,14 +2,14 @@
 
 #include <stdio.h>
 
-void cpu_fetch(void) {
+void CPUFetch(void) {
     printf("fetch\n");
 }
 
-void cpu_decode(void) {
+void CPUDecode(void) {
     printf("decode\n");
 }
 
-void cpu_execute(void) {
+void CPUExecute(void) {
     printf("execute\n");
 }

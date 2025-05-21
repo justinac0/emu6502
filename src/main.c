@@ -15,7 +15,7 @@ typedef struct {
     U16 ramsize;
 } Emulator;
 
-void emulator_init(Emulator *emu, size_t memsize) {
+void InitEmulator(Emulator *emu, size_t memsize) {
     assert(emu);
 
     // zero out cpu state
@@ -27,30 +27,30 @@ void emulator_init(Emulator *emu, size_t memsize) {
     assert(emu->ram);
 
     // initialize opcodes
-    init_opcode_table(emu->opcodes);
+    InitOpcodeTable(emu->opcodes);
 }
 
-void emulator_update(Emulator *emu) {
-    cpu_fetch();
-    cpu_decode();
-    cpu_execute();
+void UpdateEmulator(Emulator *emu) {
+    CPUFetch();
+    CPUDecode();
+    CPUExecute();
 }
 
-void emulator_terminate(Emulator *emu) {
+void TerminateEmulator(Emulator *emu) {
     assert(emu);
     free(emu->ram);
 }
 
 int main(void) {
     Emulator emu;
-    emulator_init(&emu, DEFAULT_RAM_SIZE);
+    InitEmulator(&emu, DEFAULT_RAM_SIZE);
 
     for (;;) {
-        emulator_update(&emu);
+        UpdateEmulator(&emu);
         break;
     }
 
-    emulator_terminate(&emu);
+    TerminateEmulator(&emu);
 
     return 0;
 }

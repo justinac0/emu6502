@@ -8,6 +8,6 @@
 typedef void (*OpcodeCB)(CPU *);
 typedef OpcodeCB OpcodeTable[OPCODE_LENGTH];
 
-void init_opcode_table(OpcodeTable table);
+void InitOpcodeTable(OpcodeTable table);
 
 #endif // OPCODE_H
