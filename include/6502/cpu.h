@@ -3,7 +3,6 @@
 
 #include "types.h"
 
-
 typedef struct {
     U8 A;   // accumulator
     U8 P;   // processor flags (NV-BDIZC)

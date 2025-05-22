@@ -45,14 +45,6 @@ int main(void) {
     Emulator emu;
     InitEmulator(&emu, DEFAULT_RAM_SIZE);
 
-    for (int i = 0; i < OPCODE_LENGTH; i++) {
-        if (emu.opcodes[i]) {
-            printf("%d > ", i);
-            emu.opcodes[i](&emu.cpu);
-            printf("\n");
-        }
-    }
-
     for (;;) {
         UpdateEmulator(&emu);
         break;
