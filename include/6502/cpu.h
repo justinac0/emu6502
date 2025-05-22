@@ -5,13 +5,18 @@
 
 // Memory Layout
 // Zero Page
-// > $0000-$00FF
+#define ZERO_PAGE_FIRST (0x0000)
+#define ZERO_PAGE_LAST (0x00FF)
 // Stack
-// > $0100-$01FF
+#define STACK_FIRST (0x0100)
+#define STACK_LAST (0x01FF)
 // RAM
-// > $0200-$7FFF
+#define RAM_FIRST (0x0200)
+#define RAM_LAST (0x7FFF)
 // ROM
-// > $8000-$FFFF
+#define ROM_FIRST (0x8000)
+#define ROM_LAST (0xFFFF)
+
 #define CPU_MEMORY_SIZE (0xFFFF)
 typedef struct {
     U8 A;   // accumulator
