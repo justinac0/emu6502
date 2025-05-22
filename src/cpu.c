@@ -13,3 +13,21 @@ void CreateCPU(CPU *cpu) {
 void DestroyCPU(CPU *cpu) {
     assert(cpu);
 }
+
+void PrintCPUMemory(CPU *cpu, U32 begin, U32 end) {
+    if (end > CPU_MEMORY_SIZE || begin > end) {
+        assert("out of bounds memory print");
+        return;
+    }
+
+    for (U32 i = begin; i <= end; i++) {
+        if ((i % 16) == 0) {
+            if (i != 0) {
+                printf("\n");
+            }
+            printf("%04X > ", i);
+        }
+        printf("%02X ", cpu->memory[i]);
+    }
+    printf("\n");
+}

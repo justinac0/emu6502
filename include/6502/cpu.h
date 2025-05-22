@@ -5,13 +5,13 @@
 
 // Memory Layout
 // Zero Page
-//  $0000-$00FF
+// > $0000-$00FF
 // Stack
-//  $0100-$01FF
+// > $0100-$01FF
 // RAM
-//  $0200-$7FFF
+// > $0200-$7FFF
 // ROM
-//  $8000-$FFFF
+// > $8000-$FFFF
 #define CPU_MEMORY_SIZE (0xFFFF)
 typedef struct {
     U8 A;   // accumulator
@@ -20,10 +20,11 @@ typedef struct {
     U8 X;   // index register
     U8 Y;   // index register
     U16 PC; // program counter
-    U8 memory[CPU_MEMORY_SIZE];
+    U8 memory[CPU_MEMORY_SIZE]; // *external
 } CPU;
 
 void CreateCPU(CPU *cpu);
 void DestroyCPU(CPU *cpu);
+void PrintCPUMemory(CPU *cpu, U32 begin, U32 end);
 
 #endif // CPU_H

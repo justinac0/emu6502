@@ -9,7 +9,7 @@
 typedef struct {
     CPU cpu;
     OpcodeTable opcodes;
-    U16 ramsize;
+    // put peripherals here
 } Emulator;
 
 void InitEmulator(Emulator *emu) {
@@ -24,26 +24,16 @@ void TerminateEmulator(Emulator *emu) {
     DestroyCPU(&emu->cpu);
 }
 
-
 void UpdateEmulator(Emulator *emu) {
     assert(emu);
 
+    PrintCPUMemory(&emu->cpu, 0x0000, 0x00AF);
 }
-
 
 int main(void) {
     Emulator emu;
     InitEmulator(&emu);
-
-    const U8 code[1] = {
-        NOP_ADDR_IMPLICIT,
-    };
-
-    for (;;) {
-        UpdateEmulator(&emu);
-        break;
-    }
-
+    UpdateEmulator(&emu);
     TerminateEmulator(&emu);
 
     return 0;
