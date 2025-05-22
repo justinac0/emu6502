@@ -6,44 +6,38 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#define DEFAULT_RAM_SIZE (0x10000) // 64kb
-
 typedef struct {
     CPU cpu;
     OpcodeTable opcodes;
-    U8 *ram;
     U16 ramsize;
 } Emulator;
 
-void InitEmulator(Emulator *emu, size_t memsize) {
+void InitEmulator(Emulator *emu) {
     assert(emu);
 
-    // zero out cpu state
-    emu->cpu = (CPU){0};
-
-    // allocate memory for ram
-    emu->ram = (U8*)calloc(memsize, sizeof(U8));
-    emu->ramsize = memsize;
-    assert(emu->ram);
-
-    // initialize opcode table
+    CreateCPU(&emu->cpu);
     InitOpcodeTable(emu->opcodes);
-}
-
-void UpdateEmulator(Emulator *emu) {
-    CPUFetch();
-    CPUDecode();
-    CPUExecute();
 }
 
 void TerminateEmulator(Emulator *emu) {
     assert(emu);
-    free(emu->ram);
+    DestroyCPU(&emu->cpu);
 }
+
+
+void UpdateEmulator(Emulator *emu) {
+    assert(emu);
+
+}
+
 
 int main(void) {
     Emulator emu;
-    InitEmulator(&emu, DEFAULT_RAM_SIZE);
+    InitEmulator(&emu);
+
+    const U8 code[1] = {
+        NOP_ADDR_IMPLICIT,
+    };
 
     for (;;) {
         UpdateEmulator(&emu);
