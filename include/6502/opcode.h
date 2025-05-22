@@ -6,7 +6,15 @@
 #include <6502/types.h>
 #include <6502/cpu.h>
 
-#define OPCODE_DEFINE(NAME, ADDR) NAME ##_## ADDR
+#define OPCODE_LENGTH (256)
+
+
+// Bit manipulation helpers
+#define GET_BIT(byte, bit) NULL
+#define SET_BIT(byte, bit) NULL
+
+#define GET_FLAG(byte, flag) NULL
+#define SET_FLAG(byte, flag) NULL
 
 // Addressing Modes
 #define ADDR_IMPLICIT
@@ -22,6 +30,8 @@
 #define ADDR_INDIRECT
 #define ADDR_INDEXED_INDIRECT
 #define ADDR_INDIRECT_INDEXED
+
+#define OPCODE_DEFINE(NAME, ADDR) NAME ##_## ADDR
 
 // Opcode externs definitions
 // 
@@ -288,13 +298,6 @@ extern const U8 OPCODE_DEFINE(TXS, ADDR_IMPLICIT);
 #define TYA // TYA - Transfer Y to Accumulator
 extern const U8 OPCODE_DEFINE(TYA, ADDR_IMPLICIT);
 
-// Bit manipulation helpers
-#define GET_BIT(byte, bit) ((byte >> bit) & 1)
-#define SET_BIT(byte, bit) (byte | (1 << bit))
-
-#define GET_PROC_FLAG(byte, flag) GET_BIT(byte, flag)
-#define SET_PROC_FLAG(byte, flag) SET_BIT(byte, flag)
-
 // Processor Flags
 // NV-BDIZC
 // [7] N Negative
@@ -305,18 +308,25 @@ extern const U8 OPCODE_DEFINE(TYA, ADDR_IMPLICIT);
 // [2] I Interrupt Disable
 // [1] Z Zero
 // [0] C Carry
-#define PF_CARRY                (0x01)
-#define PF_ZERO                 (0x02)
-#define PF_INTERRUPT_DISABLE    (0x04)
-#define PF_DECIMAL_MODE         (0x08)
-#define PF_BREAK_COMMAND        (0x10)
-// -> none
-#define PF_OVERFLOW             (0x40)
-#define PF_NEGATIVE             (0x80)
+#define PF_CARRY                (0)
+#define PF_ZERO                 (0)
+#define PF_INTERRUPT_DISABLE    (0)
+#define PF_DECIMAL_MODE         (0)
+#define PF_BREAK_COMMAND        (0)
+#define PF_OVERFLOW             (0)
+#define PF_NEGATIVE             (0)
+
+// Addressing Modes
 
 typedef void (*OpcodeCB)(CPU *);
 
-#define OPCODE_LENGTH (256)
+typedef struct {
+    U8 opcode;
+    U8 cycles;
+    U8 nbytes;
+    OpcodeCB handler;
+} Instruction;
+
 typedef OpcodeCB OpcodeTable[OPCODE_LENGTH];
 
 void InitOpcodeTable(OpcodeTable table);
