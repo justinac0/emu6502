@@ -3,6 +3,25 @@
 
 #include "types.h"
 
+// ------------------------------------------
+// CPU
+// ------------------------------------------
+typedef struct {
+    U8 A;   // accumulator
+    U8 P;   // processor flags (NV-BDIZC)
+    U8 S;   // stack pointer
+    U8 X;   // index register
+    U8 Y;   // index register
+    U16 PC; // program counter
+} CPU;
+
+void CreateCPU(CPU *cpu);
+void DestroyCPU(CPU *cpu);
+
+// ---------------------------------------
+// Perf Memory
+// ---------------------------------------
+//
 // Memory Layout
 // Zero Page
 #define ZERO_PAGE_FIRST (0x0000)
@@ -17,19 +36,10 @@
 #define ROM_FIRST (0x8000)
 #define ROM_LAST (0xFFFF)
 
-#define CPU_MEMORY_SIZE (0xFFFF)
-typedef struct {
-    U8 A;   // accumulator
-    U8 P;   // processor flags (NV-BDIZC)
-    U8 S;   // stack pointer
-    U8 X;   // index register
-    U8 Y;   // index register
-    U16 PC; // program counter
-    U8 memory[CPU_MEMORY_SIZE]; // *external
-} CPU;
+#define DEFAULT_MEMSIZE (0xFFFF)
 
-void CreateCPU(CPU *cpu);
-void DestroyCPU(CPU *cpu);
-void PrintCPUMemory(CPU *cpu, U32 begin, U32 end);
+U8* CreateMemory(void);
+void DestroyMemory(U8 *mem);
+void PrintMemory(U8 *mem, U32 begin, U32 end);
 
 #endif // CPU_H

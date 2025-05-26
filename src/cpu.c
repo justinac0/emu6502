@@ -1,25 +1,27 @@
 #include <6502/cpu.h>
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <assert.h>
 
 void CreateCPU(CPU *cpu) {
     assert(cpu);
-    memset(cpu->memory, 0, CPU_MEMORY_SIZE);
-
 }
 
 void DestroyCPU(CPU *cpu) {
     assert(cpu);
 }
 
-void PrintCPUMemory(CPU *cpu, U32 begin, U32 end) {
-    if (end > CPU_MEMORY_SIZE || begin > end) {
-        assert("out of bounds memory print");
-        return;
-    }
+U8 *CreateMemory(void) {
+    return (U8*)calloc(DEFAULT_MEMSIZE, sizeof(U8));
+}
 
+void DestroyMemory(U8 *mem) {
+//    free(mem);
+}
+
+void PrintMemory(U8 *mem, U32 begin, U32 end) {
     for (U32 i = begin; i <= end; i++) {
         if ((i % 16) == 0) {
             if (i != 0) {
@@ -27,7 +29,7 @@ void PrintCPUMemory(CPU *cpu, U32 begin, U32 end) {
             }
             printf("%04X > ", i);
         }
-        printf("%02X ", cpu->memory[i]);
+        printf("%02X ", mem[i]);
     }
     printf("\n");
 }

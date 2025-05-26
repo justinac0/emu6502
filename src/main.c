@@ -8,6 +8,7 @@
 
 typedef struct {
     CPU cpu;
+    U8 *mem;
     OpcodeTable opcodes;
     // put peripherals here
 } Emulator;
@@ -15,19 +16,29 @@ typedef struct {
 void InitEmulator(Emulator *emu) {
     assert(emu);
 
+    // initialize cpu
     CreateCPU(&emu->cpu);
+
+    // initialize opcodes
     InitOpcodeTable(emu->opcodes);
+
+    // zero out memory
+    emu->mem = CreateMemory(); 
+    assert(emu->mem);
 }
 
 void TerminateEmulator(Emulator *emu) {
     assert(emu);
+
+    free(emu->mem);
+    // TODO: opcodes deinit
     DestroyCPU(&emu->cpu);
 }
 
 void UpdateEmulator(Emulator *emu) {
     assert(emu);
 
-    PrintCPUMemory(&emu->cpu, 0x0000, 0x00AF);
+    PrintMemory(emu->mem, 0x0000, 0x00AF);
 }
 
 int main(void) {
