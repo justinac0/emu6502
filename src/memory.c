@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <byteswap.h>
 
 U8 *CreateMemory(void) {
     return (U8*)calloc(DEFAULT_MEMSIZE, sizeof(U8));
@@ -19,7 +20,6 @@ void StoreMemory(U8 *dst, U8 *src, U32 offset, U32 memsize, U8 endian) {
     assert(offset + memsize < DEFAULT_MEMSIZE);
 
     // NOTE: switch for loop with some memcpy endian version
-    // look into this...
     // __builtin_bswap32 (GCC)
     // 
     if (endian == LITTLE_ENDIAN) {

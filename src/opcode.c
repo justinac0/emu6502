@@ -276,271 +276,270 @@ void NotImplemented(CPU *cpu) {
 // Opcode Table
 // -----------------------------------
 void InitOpcodeTable(OpcodeTable table) {
-    for (U16 i = 0; i < OPCODE_LENGTH; i++) {
-        table[i] = NULL;
-    }
+    // for (U16 i = 0; i < OPCODE_LENGTH; i++) {
+    //     table[i] = NULL;
+    // }
 
     // ADC - Add and Carry
-    table[ADC_ADDR_IMMEDIATE]           = NotImplemented;
-    table[ADC_ADDR_ZERO_PAGE]           = NotImplemented;
-    table[ADC_ADDR_ZERO_PAGE_X]         = NotImplemented;
-    table[ADC_ADDR_ABSOLUTE]            = NotImplemented;
-    table[ADC_ADDR_ABSOLUTE_X]          = NotImplemented;
-    table[ADC_ADDR_ABSOLUTE_Y]          = NotImplemented;
-    table[ADC_ADDR_INDEXED_INDIRECT]    = NotImplemented;
-    table[ADC_ADDR_INDIRECT_INDEXED]    = NotImplemented;
+    table[ADC_ADDR_IMMEDIATE]           = InitOpcodeSpec(2, 2, NotImplemented);
+    table[ADC_ADDR_ZERO_PAGE]           = InitOpcodeSpec(2, 3, NotImplemented);
+    table[ADC_ADDR_ZERO_PAGE_X]         = InitOpcodeSpec(2, 4, NotImplemented);
+    table[ADC_ADDR_ABSOLUTE]            = InitOpcodeSpec(3, 4, NotImplemented);
+    table[ADC_ADDR_ABSOLUTE_X]          = InitOpcodeSpec(3, 4, NotImplemented); // +1 of page crossed
+    table[ADC_ADDR_ABSOLUTE_Y]          = InitOpcodeSpec(3, 4, NotImplemented); // +1 of page crossed
+    table[ADC_ADDR_INDEXED_INDIRECT]    = InitOpcodeSpec(2, 6, NotImplemented);
+    table[ADC_ADDR_INDIRECT_INDEXED]    = InitOpcodeSpec(2, 5, NotImplemented); // +1 of page crossed
 
     // AND - Logical AND
-    table[AND_ADDR_IMMEDIATE]           = NotImplemented;
-    table[AND_ADDR_ZERO_PAGE]           = NotImplemented;
-    table[AND_ADDR_ZERO_PAGE_X]         = NotImplemented;
-    table[AND_ADDR_ABSOLUTE]            = NotImplemented;
-    table[AND_ADDR_ABSOLUTE_X]          = NotImplemented;
-    table[AND_ADDR_ABSOLUTE_Y]          = NotImplemented;
-    table[AND_ADDR_INDEXED_INDIRECT]    = NotImplemented;
-    table[AND_ADDR_INDIRECT_INDEXED]    = NotImplemented;
+    table[AND_ADDR_IMMEDIATE]           = InitOpcodeSpec(2, 2, NotImplemented);
+    table[AND_ADDR_ZERO_PAGE]           = InitOpcodeSpec(2, 3, NotImplemented);
+    table[AND_ADDR_ZERO_PAGE_X]         = InitOpcodeSpec(2, 4, NotImplemented);
+    table[AND_ADDR_ABSOLUTE]            = InitOpcodeSpec(3, 4, NotImplemented);
+    table[AND_ADDR_ABSOLUTE_X]          = InitOpcodeSpec(3, 4, NotImplemented); // +1 of page crossed
+    table[AND_ADDR_ABSOLUTE_Y]          = InitOpcodeSpec(3, 4, NotImplemented); // +1 of page crossed
+    table[AND_ADDR_INDEXED_INDIRECT]    = InitOpcodeSpec(2, 6, NotImplemented);
+    table[AND_ADDR_INDIRECT_INDEXED]    = InitOpcodeSpec(2, 5, NotImplemented); // +1 of page crossed
 
     // ASL - Arithmetic Shift Left
-    table[ASL_ADDR_ACCUMULATOR] = NotImplemented;
-    table[ASL_ADDR_ZERO_PAGE]   = NotImplemented;
-    table[ASL_ADDR_ZERO_PAGE_X] = NotImplemented;
-    table[ASL_ADDR_ABSOLUTE]    = NotImplemented;
-    table[ASL_ADDR_ABSOLUTE_X]  = NotImplemented;
+    table[ASL_ADDR_ACCUMULATOR] = InitOpcodeSpec(1, 2, NotImplemented);
+    table[ASL_ADDR_ZERO_PAGE]   = InitOpcodeSpec(2, 5, NotImplemented);
+    table[ASL_ADDR_ZERO_PAGE_X] = InitOpcodeSpec(2, 6, NotImplemented);
+    table[ASL_ADDR_ABSOLUTE]    = InitOpcodeSpec(3, 6, NotImplemented);
+    table[ASL_ADDR_ABSOLUTE_X]  = InitOpcodeSpec(3, 7, NotImplemented);
 
     // BCC - Branch if Carry Clear
-    table[BCC_ADDR_RELATIVE] = NotImplemented;
+    table[BCC_ADDR_RELATIVE] = InitOpcodeSpec(2, 2, NotImplemented); // (+1 if branch succeeds, + 2 if to a new page)
 
     // BCS - Branch if Carry Set
-    table[BCS_ADDR_RELATIVE] = NotImplemented;
+    table[BCS_ADDR_RELATIVE] = InitOpcodeSpec(2, 2, NotImplemented); // (+1 if branch succeeds, + 2 if to a new page)
 
     // BEQ - Branch if Equal
-    table[BEQ_ADDR_RELATIVE] = NotImplemented;
+    table[BEQ_ADDR_RELATIVE] = InitOpcodeSpec(2, 2, NotImplemented); // (+1 if branch succeeds, + 2 if to a new page)
 
     // BIT - Bit Test
-    table[BIT_ADDR_ZERO_PAGE]   = NotImplemented;
-    table[BIT_ADDR_ABSOLUTE]    = NotImplemented;
+    table[BIT_ADDR_ZERO_PAGE]   = InitOpcodeSpec(2, 3, NotImplemented);
+    table[BIT_ADDR_ABSOLUTE]    = InitOpcodeSpec(3, 4, NotImplemented);
 
     // BMI - Branch if Minus
-    table[BMI_ADDR_RELATIVE] = NotImplemented;
+    table[BMI_ADDR_RELATIVE] = InitOpcodeSpec(2, 2, NotImplemented); // (+1 if branch succeeds, + 2 if to a new page)
 
     // BNE - Branch if Not Equal
-    table[BNE_ADDR_RELATIVE] = NotImplemented;
+    table[BNE_ADDR_RELATIVE] = InitOpcodeSpec(2, 2, NotImplemented); // (+1 if branch succeeds, + 2 if to a new page)
 
     // BPL - Branch if Positive
-    table[BPL_ADDR_RELATIVE] = NotImplemented;
+    table[BPL_ADDR_RELATIVE] = InitOpcodeSpec(2, 2, NotImplemented); // (+1 if branch succeeds, + 2 if to a new page)
 
     // BRK - Force Interrupt
-    table[BRK_ADDR_IMPLICIT] = NotImplemented;
+    table[BRK_ADDR_IMPLICIT] = InitOpcodeSpec(1, 7, NotImplemented);
 
     // BVC - Branch if Overflow Clear
-    table[BVC_ADDR_RELATIVE] = NotImplemented;
+    table[BVC_ADDR_RELATIVE] = InitOpcodeSpec(2, 2, NotImplemented); // (+1 if branch succeeds, + 2 if to a new page)
 
     // BVC - Branch if Overflow Set
-    table[BVS_ADDR_RELATIVE] = NotImplemented;
+    table[BVS_ADDR_RELATIVE] = InitOpcodeSpec(2, 2, NotImplemented); // (+1 if branch succeeds, + 2 if to a new page)
 
     // CLC - Clear Carry Flag
-    table[CLC_ADDR_IMPLICIT] = NotImplemented;
+    table[CLC_ADDR_IMPLICIT] = InitOpcodeSpec(1, 2, NotImplemented);
 
     // CLD - Clear Decimal Mode
-    table[CLD_ADDR_IMPLICIT] = NotImplemented;
+    table[CLD_ADDR_IMPLICIT] = InitOpcodeSpec(1, 2, NotImplemented);
 
     // CLI - Clear Interrupt Disable
-    table[CLI_ADDR_IMPLICIT] = NotImplemented;
+    table[CLI_ADDR_IMPLICIT] = InitOpcodeSpec(1, 2, NotImplemented);
 
     // CLV - Clear Overflow Flag
-    table[CLV_ADDR_IMPLICIT] = NotImplemented;
+    table[CLV_ADDR_IMPLICIT] = InitOpcodeSpec(1, 2, NotImplemented);
 
     // CMP - Compare
-    table[CMP_ADDR_IMMEDIATE]           = NotImplemented;
-    table[CMP_ADDR_ZERO_PAGE]           = NotImplemented;
-    table[CMP_ADDR_ZERO_PAGE_X]         = NotImplemented;
-    table[CMP_ADDR_ABSOLUTE]            = NotImplemented;
-    table[CMP_ADDR_ABSOLUTE_X]          = NotImplemented;
-    table[CMP_ADDR_ABSOLUTE_Y]          = NotImplemented;
-    table[CMP_ADDR_INDEXED_INDIRECT]    = NotImplemented;
-    table[CMP_ADDR_INDIRECT_INDEXED]    = NotImplemented;
+    table[CMP_ADDR_IMMEDIATE]           = InitOpcodeSpec(2, 2, NotImplemented);
+    table[CMP_ADDR_ZERO_PAGE]           = InitOpcodeSpec(2, 3, NotImplemented);
+    table[CMP_ADDR_ZERO_PAGE_X]         = InitOpcodeSpec(2, 4, NotImplemented);
+    table[CMP_ADDR_ABSOLUTE]            = InitOpcodeSpec(3, 4, NotImplemented);
+    table[CMP_ADDR_ABSOLUTE_X]          = InitOpcodeSpec(3, 4, NotImplemented); // +1 of page crossed
+    table[CMP_ADDR_ABSOLUTE_Y]          = InitOpcodeSpec(3, 4, NotImplemented); // +1 of page crossed
+    table[CMP_ADDR_INDEXED_INDIRECT]    = InitOpcodeSpec(2, 6, NotImplemented);
+    table[CMP_ADDR_INDIRECT_INDEXED]    = InitOpcodeSpec(2, 5, NotImplemented); // +1 of page crossed
 
-    // CMP - Compare X Register
-    table[CPX_ADDR_IMMEDIATE]   = NotImplemented;
-    table[CPX_ADDR_ZERO_PAGE]   = NotImplemented;
-    table[CPX_ADDR_ABSOLUTE]    = NotImplemented;
+    // CMX - Compare X Register
+    table[CPX_ADDR_IMMEDIATE]   = InitOpcodeSpec(2, 2, NotImplemented);
+    table[CPX_ADDR_ZERO_PAGE]   = InitOpcodeSpec(2, 3, NotImplemented);
+    table[CPX_ADDR_ABSOLUTE]    = InitOpcodeSpec(3, 4, NotImplemented);
 
     // CPY - Compare Y Register
-    table[CPY_ADDR_IMMEDIATE]   = NotImplemented;
-    table[CPY_ADDR_ZERO_PAGE]   = NotImplemented;
-    table[CPY_ADDR_ABSOLUTE]    = NotImplemented;
+    table[CPY_ADDR_IMMEDIATE]   = InitOpcodeSpec(2, 2, NotImplemented);
+    table[CPY_ADDR_ZERO_PAGE]   = InitOpcodeSpec(2, 3, NotImplemented);
+    table[CPY_ADDR_ABSOLUTE]    = InitOpcodeSpec(3, 4, NotImplemented);
 
     // DEC - Decrement Memory
-    table[DEC_ADDR_ZERO_PAGE]   = NotImplemented;
-    table[DEC_ADDR_ZERO_PAGE_X] = NotImplemented;
-    table[DEC_ADDR_ABSOLUTE]    = NotImplemented;
-    table[DEC_ADDR_ABSOLUTE_X]  = NotImplemented;
+    table[DEC_ADDR_ZERO_PAGE]   = InitOpcodeSpec(2, 5, NotImplemented);
+    table[DEC_ADDR_ZERO_PAGE_X] = InitOpcodeSpec(2, 6, NotImplemented);
+    table[DEC_ADDR_ABSOLUTE]    = InitOpcodeSpec(3, 6, NotImplemented);
+    table[DEC_ADDR_ABSOLUTE_X]  = InitOpcodeSpec(3, 7, NotImplemented);
 
     // DEX - Decrement X Register
-    table[DEX_ADDR_IMPLICIT] = NotImplemented;
+    table[DEX_ADDR_IMPLICIT] = InitOpcodeSpec(1, 2, NotImplemented);
 
     // DEY - Decrement Y Register
-    table[DEY_ADDR_IMPLICIT] = NotImplemented;
+    table[DEY_ADDR_IMPLICIT] = InitOpcodeSpec(1, 2, NotImplemented);
 
     // EOR - Exclusive OR
-    table[EOR_ADDR_IMMEDIATE]           = NotImplemented;
-    table[EOR_ADDR_ZERO_PAGE]           = NotImplemented;
-    table[EOR_ADDR_ZERO_PAGE_X]         = NotImplemented;
-    table[EOR_ADDR_ABSOLUTE]            = NotImplemented;
-    table[EOR_ADDR_ABSOLUTE_X]          = NotImplemented;
-    table[EOR_ADDR_ABSOLUTE_Y]          = NotImplemented;
-    table[EOR_ADDR_INDEXED_INDIRECT]    = NotImplemented;
-    table[EOR_ADDR_INDIRECT_INDEXED]    = NotImplemented;
+    table[EOR_ADDR_IMMEDIATE]           = InitOpcodeSpec(2, 2, NotImplemented);
+    table[EOR_ADDR_ZERO_PAGE]           = InitOpcodeSpec(2, 3, NotImplemented);
+    table[EOR_ADDR_ZERO_PAGE_X]         = InitOpcodeSpec(2, 4, NotImplemented);
+    table[EOR_ADDR_ABSOLUTE]            = InitOpcodeSpec(3, 4, NotImplemented);
+    table[EOR_ADDR_ABSOLUTE_X]          = InitOpcodeSpec(3, 4, NotImplemented); // (+1 if page crossed)
+    table[EOR_ADDR_ABSOLUTE_Y]          = InitOpcodeSpec(3, 4, NotImplemented); // (+1 if page crossed)
+    table[EOR_ADDR_INDEXED_INDIRECT]    = InitOpcodeSpec(2, 6, NotImplemented);
+    table[EOR_ADDR_INDIRECT_INDEXED]    = InitOpcodeSpec(2, 5, NotImplemented); // (+1 if page crossed)
 
     // INC - Increment Memory
-    table[INC_ADDR_ZERO_PAGE]   = NotImplemented;
-    table[INC_ADDR_ZERO_PAGE_X] = NotImplemented;
-    table[INC_ADDR_ABSOLUTE]    = NotImplemented;
-    table[INC_ADDR_ABSOLUTE_X]  = NotImplemented;
+    table[INC_ADDR_ZERO_PAGE]   = InitOpcodeSpec(2, 5, NotImplemented);
+    table[INC_ADDR_ZERO_PAGE_X] = InitOpcodeSpec(2, 6, NotImplemented);
+    table[INC_ADDR_ABSOLUTE]    = InitOpcodeSpec(3, 6, NotImplemented);
+    table[INC_ADDR_ABSOLUTE_X]  = InitOpcodeSpec(3, 7, NotImplemented);
 
     // INX - Increment X Register
-    table[INX_ADDR_IMPLICIT] = NotImplemented;
+    table[INX_ADDR_IMPLICIT] = InitOpcodeSpec(1, 2, NotImplemented);
 
     // INY - Increment Y Register
-    table[INY_ADDR_IMPLICIT] = NotImplemented;
+    table[INY_ADDR_IMPLICIT] = InitOpcodeSpec(1, 2, NotImplemented);
 
     // JMP - Jump
-    table[JMP_ADDR_ABSOLUTE] = NotImplemented;
-    table[JMP_ADDR_INDIRECT] = NotImplemented;
+    table[JMP_ADDR_ABSOLUTE] = InitOpcodeSpec(3, 3, NotImplemented);
+    table[JMP_ADDR_INDIRECT] = InitOpcodeSpec(3, 5, NotImplemented);
 
     // JSR - Jump to Subroutine
-    table[JMP_ADDR_ABSOLUTE] = NotImplemented;
+    table[JMP_ADDR_ABSOLUTE] = InitOpcodeSpec(3, 6, NotImplemented);
 
     // LDA - Load Accumulator
-    table[LDA_ADDR_IMMEDIATE]           = NotImplemented;
-    table[LDA_ADDR_ZERO_PAGE]           = NotImplemented;
-    table[LDA_ADDR_ZERO_PAGE_X]         = NotImplemented;
-    table[LDA_ADDR_ABSOLUTE]            = NotImplemented;
-    table[LDA_ADDR_ABSOLUTE_X]          = NotImplemented;
-    table[LDA_ADDR_ABSOLUTE_Y]          = NotImplemented;
-    table[LDA_ADDR_INDEXED_INDIRECT]    = NotImplemented;
-    table[LDA_ADDR_INDIRECT_INDEXED]    = NotImplemented;
+    table[LDA_ADDR_IMMEDIATE]           = InitOpcodeSpec(2, 2, NotImplemented);
+    table[LDA_ADDR_ZERO_PAGE]           = InitOpcodeSpec(2, 3, NotImplemented);
+    table[LDA_ADDR_ZERO_PAGE_X]         = InitOpcodeSpec(2, 4, NotImplemented);
+    table[LDA_ADDR_ABSOLUTE]            = InitOpcodeSpec(3, 4, NotImplemented);
+    table[LDA_ADDR_ABSOLUTE_X]          = InitOpcodeSpec(3, 4, NotImplemented); // (+1 if page crossed)
+    table[LDA_ADDR_ABSOLUTE_Y]          = InitOpcodeSpec(3, 4, NotImplemented); // (+1 if page crossed)
+    table[LDA_ADDR_INDEXED_INDIRECT]    = InitOpcodeSpec(2, 6, NotImplemented);
+    table[LDA_ADDR_INDIRECT_INDEXED]    = InitOpcodeSpec(2, 5, NotImplemented); // (+1 if page crossed)
 
     // LDX - Load X Register
-    table[LDX_ADDR_IMMEDIATE]   = NotImplemented;
-    table[LDX_ADDR_ZERO_PAGE]   = NotImplemented;
-    table[LDX_ADDR_ZERO_PAGE_Y] = NotImplemented;
-    table[LDX_ADDR_ABSOLUTE]    = NotImplemented;
-    table[LDX_ADDR_ABSOLUTE_Y]  = NotImplemented;
+    table[LDX_ADDR_IMMEDIATE]   = InitOpcodeSpec(2, 2, NotImplemented);
+    table[LDX_ADDR_ZERO_PAGE]   = InitOpcodeSpec(2, 3, NotImplemented);
+    table[LDX_ADDR_ZERO_PAGE_Y] = InitOpcodeSpec(2, 4, NotImplemented);
+    table[LDX_ADDR_ABSOLUTE]    = InitOpcodeSpec(3, 4, NotImplemented);
+    table[LDX_ADDR_ABSOLUTE_Y]  = InitOpcodeSpec(3, 4, NotImplemented); // (+1 if page crossed)
 
     // LDY - Load Y Register
-    table[LDY_ADDR_IMMEDIATE]   = NotImplemented;
-    table[LDY_ADDR_ZERO_PAGE]   = NotImplemented;
-    table[LDY_ADDR_ZERO_PAGE_X] = NotImplemented;
-    table[LDY_ADDR_ABSOLUTE]    = NotImplemented;
-    table[LDY_ADDR_ABSOLUTE_X]  = NotImplemented;
+    table[LDY_ADDR_IMMEDIATE]   = InitOpcodeSpec(2, 2, NotImplemented);
+    table[LDY_ADDR_ZERO_PAGE]   = InitOpcodeSpec(2, 3, NotImplemented);
+    table[LDY_ADDR_ZERO_PAGE_X] = InitOpcodeSpec(2, 4, NotImplemented);
+    table[LDY_ADDR_ABSOLUTE]    = InitOpcodeSpec(3, 4, NotImplemented);
+    table[LDY_ADDR_ABSOLUTE_X]  = InitOpcodeSpec(3, 4, NotImplemented); // (+1 if page crossed)
 
     // LSR - Logical Shift Right
-    table[LSR_ADDR_ACCUMULATOR] = NotImplemented;
-    table[LSR_ADDR_ZERO_PAGE]   = NotImplemented;
-    table[LSR_ADDR_ZERO_PAGE_X] = NotImplemented;
-    table[LSR_ADDR_ABSOLUTE]    = NotImplemented;
-    table[LSR_ADDR_ABSOLUTE_X]  = NotImplemented;
+    table[LSR_ADDR_ACCUMULATOR] = InitOpcodeSpec(1, 2, NotImplemented);
+    table[LSR_ADDR_ZERO_PAGE]   = InitOpcodeSpec(2, 5, NotImplemented);
+    table[LSR_ADDR_ZERO_PAGE_X] = InitOpcodeSpec(2, 6, NotImplemented);
+    table[LSR_ADDR_ABSOLUTE]    = InitOpcodeSpec(3, 6, NotImplemented);
+    table[LSR_ADDR_ABSOLUTE_X]  = InitOpcodeSpec(3, 7, NotImplemented);
 
     // NOP - No Operation
-    table[NOP_ADDR_IMPLICIT] = NotImplemented;
+    table[NOP_ADDR_IMPLICIT] = InitOpcodeSpec(1, 2, NotImplemented);
 
     // Logical Inclusive OR
-    table[ORA_ADDR_IMMEDIATE]           = NotImplemented;
-    table[ORA_ADDR_ZERO_PAGE]           = NotImplemented;
-    table[ORA_ADDR_ZERO_PAGE_X]         = NotImplemented;
-    table[ORA_ADDR_ABSOLUTE]            = NotImplemented;
-    table[ORA_ADDR_ABSOLUTE_X]          = NotImplemented;
-    table[ORA_ADDR_ABSOLUTE_Y]          = NotImplemented;
-    table[ORA_ADDR_INDEXED_INDIRECT]    = NotImplemented;
-    table[ORA_ADDR_INDIRECT_INDEXED]    = NotImplemented;
+    table[ORA_ADDR_IMMEDIATE]           = InitOpcodeSpec(2, 2, NotImplemented);
+    table[ORA_ADDR_ZERO_PAGE]           = InitOpcodeSpec(2, 3, NotImplemented);
+    table[ORA_ADDR_ZERO_PAGE_X]         = InitOpcodeSpec(2, 4, NotImplemented);
+    table[ORA_ADDR_ABSOLUTE]            = InitOpcodeSpec(3, 4, NotImplemented);
+    table[ORA_ADDR_ABSOLUTE_X]          = InitOpcodeSpec(3, 4, NotImplemented); // (+1 if page crossed)
+    table[ORA_ADDR_ABSOLUTE_Y]          = InitOpcodeSpec(3, 4, NotImplemented); // (+1 if page crossed)
+    table[ORA_ADDR_INDEXED_INDIRECT]    = InitOpcodeSpec(2, 6, NotImplemented);
+    table[ORA_ADDR_INDIRECT_INDEXED]    = InitOpcodeSpec(2, 5, NotImplemented); // (+1 if page crossed)
 
     // PHA - Push Accumulator
-    table[PHA_ADDR_IMPLICIT] = NotImplemented;
+    table[PHA_ADDR_IMPLICIT] = InitOpcodeSpec(1, 3, NotImplemented);
 
     // PHP - Push Processor Status
-    table[PHP_ADDR_IMPLICIT] = NotImplemented;
+    table[PHP_ADDR_IMPLICIT] = InitOpcodeSpec(1, 3, NotImplemented);
 
     // PLA - Pull Accumulator
-    table[PLA_ADDR_IMPLICIT] = NotImplemented;
+    table[PLA_ADDR_IMPLICIT] = InitOpcodeSpec(1, 4, NotImplemented);
 
     // PLP - Pull Processor Status
-    table[PLP_ADDR_IMPLICIT] = NotImplemented;
+    table[PLP_ADDR_IMPLICIT] = InitOpcodeSpec(1, 4, NotImplemented);
 
     // ROL - Rotate Left
-    table[ROL_ADDR_ACCUMULATOR] = NotImplemented;
-    table[ROL_ADDR_ZERO_PAGE]   = NotImplemented;
-    table[ROL_ADDR_ZERO_PAGE_X] = NotImplemented;
-    table[ROL_ADDR_ABSOLUTE]    = NotImplemented;
-    table[ROL_ADDR_ABSOLUTE_X]  = NotImplemented;
+    table[ROL_ADDR_ACCUMULATOR] = InitOpcodeSpec(1, 2, NotImplemented);
+    table[ROL_ADDR_ZERO_PAGE]   = InitOpcodeSpec(2, 5, NotImplemented);
+    table[ROL_ADDR_ZERO_PAGE_X] = InitOpcodeSpec(2, 6, NotImplemented);
+    table[ROL_ADDR_ABSOLUTE]    = InitOpcodeSpec(3, 6, NotImplemented);
+    table[ROL_ADDR_ABSOLUTE_X]  = InitOpcodeSpec(3, 7, NotImplemented);
 
     // ROR - Rotate Right
-    table[ROR_ADDR_ACCUMULATOR] = NotImplemented;
-    table[ROR_ADDR_ZERO_PAGE]   = NotImplemented;
-    table[ROR_ADDR_ZERO_PAGE_X] = NotImplemented;
-    table[ROR_ADDR_ABSOLUTE]    = NotImplemented;
-    table[ROR_ADDR_ABSOLUTE_X]  = NotImplemented;
+    table[ROR_ADDR_ACCUMULATOR] = InitOpcodeSpec(1, 2, NotImplemented);
+    table[ROR_ADDR_ZERO_PAGE]   = InitOpcodeSpec(2, 5, NotImplemented);
+    table[ROR_ADDR_ZERO_PAGE_X] = InitOpcodeSpec(2, 6, NotImplemented);
+    table[ROR_ADDR_ABSOLUTE]    = InitOpcodeSpec(3, 6, NotImplemented);
+    table[ROR_ADDR_ABSOLUTE_X]  = InitOpcodeSpec(3, 7, NotImplemented);
 
     // RTI - Return from Interrupt
-    table[RTI_ADDR_IMPLICIT] = NotImplemented;
+    table[RTI_ADDR_IMPLICIT] = InitOpcodeSpec(1, 6, NotImplemented);
 
     // RTS - Return from Subroutine
-    table[RTS_ADDR_IMPLICIT] = NotImplemented;
+    table[RTS_ADDR_IMPLICIT] = InitOpcodeSpec(1, 6, NotImplemented);
 
     // SBC - Subtract with Carry
-    table[SBC_ADDR_IMMEDIATE]           = NotImplemented;
-    table[SBC_ADDR_ZERO_PAGE]           = NotImplemented;
-    table[SBC_ADDR_ZERO_PAGE_X]         = NotImplemented;
-    table[SBC_ADDR_ABSOLUTE]            = NotImplemented;
-    table[SBC_ADDR_ABSOLUTE_X]          = NotImplemented;
-    table[SBC_ADDR_ABSOLUTE_Y]          = NotImplemented;
-    table[SBC_ADDR_INDEXED_INDIRECT]    = NotImplemented;
-    table[SBC_ADDR_INDIRECT_INDEXED]    = NotImplemented;
+    table[SBC_ADDR_IMMEDIATE]           = InitOpcodeSpec(2, 2, NotImplemented);
+    table[SBC_ADDR_ZERO_PAGE]           = InitOpcodeSpec(2, 3, NotImplemented);
+    table[SBC_ADDR_ZERO_PAGE_X]         = InitOpcodeSpec(2, 4, NotImplemented);
+    table[SBC_ADDR_ABSOLUTE]            = InitOpcodeSpec(3, 4, NotImplemented);
+    table[SBC_ADDR_ABSOLUTE_X]          = InitOpcodeSpec(3, 4, NotImplemented); // (+1 if page crossed)
+    table[SBC_ADDR_ABSOLUTE_Y]          = InitOpcodeSpec(3, 4, NotImplemented); // (+1 if page crossed)
+    table[SBC_ADDR_INDEXED_INDIRECT]    = InitOpcodeSpec(2, 6, NotImplemented);
+    table[SBC_ADDR_INDIRECT_INDEXED]    = InitOpcodeSpec(2, 5, NotImplemented); // (+1 if page crossed)
 
     // SEC - Set Carry Flag
-    table[SEC_ADDR_IMPLICIT] = NotImplemented;
+    table[SEC_ADDR_IMPLICIT] = InitOpcodeSpec(1, 2, NotImplemented);
 
     // SED - Set Decimal Flag
-    table[SED_ADDR_IMPLICIT] = NotImplemented;
+    table[SED_ADDR_IMPLICIT] = InitOpcodeSpec(1, 2, NotImplemented);
 
     // SEI - Set Interrupt Disable
-    table[SEI_ADDR_IMPLICIT] = NotImplemented;
+    table[SEI_ADDR_IMPLICIT] = InitOpcodeSpec(1, 2, NotImplemented);
 
     // STA - Store Accumulator
-    table[STA_ADDR_ZERO_PAGE]         = NotImplemented;
-    table[STA_ADDR_ZERO_PAGE_X]       = NotImplemented;
-    table[STA_ADDR_ABSOLUTE]          = NotImplemented;
-    table[STA_ADDR_ABSOLUTE_X]        = NotImplemented;
-    table[STA_ADDR_ABSOLUTE_Y]        = NotImplemented;
-    table[STA_ADDR_INDEXED_INDIRECT]  = NotImplemented;
-    table[STA_ADDR_INDIRECT_INDEXED]  = NotImplemented;
+    table[STA_ADDR_ZERO_PAGE]         = InitOpcodeSpec(2, 3, NotImplemented);
+    table[STA_ADDR_ZERO_PAGE_X]       = InitOpcodeSpec(2, 4, NotImplemented);
+    table[STA_ADDR_ABSOLUTE]          = InitOpcodeSpec(3, 4, NotImplemented);
+    table[STA_ADDR_ABSOLUTE_X]        = InitOpcodeSpec(3, 5, NotImplemented);
+    table[STA_ADDR_ABSOLUTE_Y]        = InitOpcodeSpec(3, 5, NotImplemented);
+    table[STA_ADDR_INDEXED_INDIRECT]  = InitOpcodeSpec(2, 6, NotImplemented);
+    table[STA_ADDR_INDIRECT_INDEXED]  = InitOpcodeSpec(2, 6, NotImplemented);
 
     // STX - Store X Register
-    table[STX_ADDR_ZERO_PAGE]     = NotImplemented;
-    table[STX_ADDR_ZERO_PAGE_X]   = NotImplemented;
-    table[STX_ADDR_ABSOLUTE]      = NotImplemented;
+    table[STX_ADDR_ZERO_PAGE]     = InitOpcodeSpec(2, 3, NotImplemented);
+    table[STX_ADDR_ZERO_PAGE_X]   = InitOpcodeSpec(2, 4, NotImplemented);
+    table[STX_ADDR_ABSOLUTE]      = InitOpcodeSpec(3, 4, NotImplemented);
 
     // STY - Store X Register
-    table[STY_ADDR_ZERO_PAGE]     = NotImplemented;
-    table[STY_ADDR_ZERO_PAGE_Y]   = NotImplemented;
-    table[STY_ADDR_ABSOLUTE]      = NotImplemented;
+    table[STY_ADDR_ZERO_PAGE]     = InitOpcodeSpec(2, 3, NotImplemented);
+    table[STY_ADDR_ZERO_PAGE_Y]   = InitOpcodeSpec(2, 4, NotImplemented);
+    table[STY_ADDR_ABSOLUTE]      = InitOpcodeSpec(3, 4, NotImplemented);
 
     // TAX - Transfer Accumulator to X
-    table[TAX_ADDR_IMPLICIT] = NotImplemented;
+    table[TAX_ADDR_IMPLICIT] = InitOpcodeSpec(1, 2, NotImplemented);
 
     // TAY - Transfer Accumulator to Y
-    table[TAY_ADDR_IMPLICIT] = NotImplemented;
+    table[TAY_ADDR_IMPLICIT] = InitOpcodeSpec(1, 2, NotImplemented);
 
     // TSX - Transfer Stack Pointer to X
-    table[TSX_ADDR_IMPLICIT] = NotImplemented;
+    table[TSX_ADDR_IMPLICIT] = InitOpcodeSpec(1, 2, NotImplemented);
 
     // TXA - Transfer X to Accumulator
-    table[TXA_ADDR_IMPLICIT] = NotImplemented;
+    table[TXA_ADDR_IMPLICIT] = InitOpcodeSpec(1, 2, NotImplemented);
 
     // TXA - Transfer X to Stack Pointer
-    table[TXS_ADDR_IMPLICIT] = NotImplemented;
+    table[TXS_ADDR_IMPLICIT] = InitOpcodeSpec(1, 2, NotImplemented);
 
     // TYA - Transfer Y to Accumulator
-    table[TYA_ADDR_IMPLICIT] = NotImplemented;
-
+    table[TYA_ADDR_IMPLICIT] = InitOpcodeSpec(1, 2, NotImplemented);
 }

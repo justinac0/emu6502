@@ -1,4 +1,5 @@
 #include <6502/cpu.h>
+#include <6502/memory.h>
 #include <6502/opcode.h>
 #include <6502/types.h>
 
@@ -44,6 +45,12 @@ void UpdateEmulator(Emulator *emu) {
 int main(void) {
     Emulator emu;
     InitEmulator(&emu);
+
+    U8 code[1] = {
+        NOP_ADDR_IMPLICIT,
+    };
+
+    StoreMemory(emu.mem, code, 0, 1, LITTLE_ENDIAN);
     UpdateEmulator(&emu);
     TerminateEmulator(&emu);
 
