@@ -315,9 +315,16 @@ extern const U8 OPCODE_DEFINE(TYA, ADDR_IMPLICIT);
 #define PF_NEGATIVE             (0x80)
 
 typedef void (*OpcodeCB)(CPU *);
+typedef struct OpcodeSpec {
+    U8 nbytes;
+    U8 cycles;
+    OpcodeCB handler;    
+} OpcodeSpec;
 
 #define OPCODE_LENGTH (256)
-typedef OpcodeCB OpcodeTable[OPCODE_LENGTH];
+typedef OpcodeSpec OpcodeTable[OPCODE_LENGTH];
+
+OpcodeSpec InitOpcodeSpec(U8 nbytes, U8 cycles, OpcodeCB cb);
 
 void InitOpcodeTable(OpcodeTable table);
 
