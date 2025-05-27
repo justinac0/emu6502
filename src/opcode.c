@@ -273,6 +273,17 @@ void NotImplemented(CPU *cpu) {
 }
 
 // -----------------------------------
+// Opcode Spec
+// -----------------------------------
+OpcodeSpec InitOpcodeSpec(U8 nbytes, U8 cycles, OpcodeCB cb) {
+    return (OpcodeSpec) {
+        .nbytes = nbytes,
+        .cycles = cycles,
+        .handler = cb,
+    };
+}
+
+// -----------------------------------
 // Opcode Table
 // -----------------------------------
 void InitOpcodeTable(OpcodeTable table) {
