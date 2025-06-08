@@ -314,7 +314,7 @@ extern const U8 OPCODE_DEFINE(TYA, ADDR_IMPLICIT);
 #define PF_OVERFLOW (0x40)
 #define PF_NEGATIVE (0x80)
 
-typedef void (*OpcodeCB)(CPU *);
+typedef void (*OpcodeCB)(CPU *, U8 *);
 typedef struct OpcodeSpec {
     U8 nbytes;
     U8 cycles;

@@ -23,7 +23,7 @@ void InitEmulator(Emulator *emu) {
 
     // initialise reserved memory locations
     U16 nMIHandler = 0x0500;
-    U16 resetHandler = 0x0300;
+    U16 resetHandler = 0x0000;  // Program excicution starts here
     U16 brkIrqHandler = 0x0600;
     StoreMemory(emu->mem, (U8 *)&nMIHandler, NMI_HANDLER, 2, BIG_ENDIAN_6502);
     StoreMemory(emu->mem, (U8 *)&resetHandler, RESET_HANDLER, 2, BIG_ENDIAN_6502);
@@ -31,7 +31,7 @@ void InitEmulator(Emulator *emu) {
 
     // initialize cpu
     CreateCPU(&emu->cpu);
-    resetCpu(emu);
+    resetCpu(&emu->cpu, emu->mem);
 
     // initialize opcodes
     InitOpcodeTable(emu->opcodes);
@@ -48,18 +48,38 @@ void TerminateEmulator(Emulator *emu) {
 void UpdateEmulator(Emulator *emu) {
     assert(emu);
 
-    PrintMemory(emu->mem, 0xFFFA, 0xFFFF);
+    for (U16 i = 0; i < 5; i++) {
+        printf("pc: %d\n", emu->cpu.PC);
+        U8 *opAddr = emu->mem + emu->cpu.PC;
+
+        // lookup opcode
+        OpcodeSpec spec = emu->opcodes[*opAddr];
+        printf("%2X ", *opAddr);
+
+        // need to call before handler so that a jump op is done correctly.
+        emu->cpu.PC += spec.nbytes;
+        spec.handler(&emu->cpu, opAddr + 1);
+
+        for (U16 j = 0; j < spec.cycles; j++) {
+            // wait?
+        }
+    }
+
+    PrintMemory(emu->mem, 0x0000, 0x00FF);
 }
 
 int main(void) {
     Emulator emu;
     InitEmulator(&emu);
 
-    U8 code[1] = {
+    U8 code[4] = {
+        NOP_ADDR_IMPLICIT,
+        NOP_ADDR_IMPLICIT,
+        NOP_ADDR_IMPLICIT,
         NOP_ADDR_IMPLICIT,
     };
 
-    StoreMemory(emu.mem, code, 0, 1, LITTLE_ENDIAN_6502);
+    StoreMemory(emu.mem, code, 0x0000, 4, BIG_ENDIAN_6502);
     UpdateEmulator(&emu);
     TerminateEmulator(&emu);
 

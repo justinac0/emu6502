@@ -35,6 +35,7 @@
 #define BIG_ENDIAN_6502 0x1
 
 void StoreMemory(U8 *dst, U8 *src, U32 offset, U32 memsize, U8 endian);
+U8 *readMemory(U8 *src, U32 offset, U32 memsize, U8 endian);
 U8 *CreateMemory(void);
 void DestroyMemory(U8 *mem);
 void PrintMemory(U8 *mem, U32 begin, U32 end);
