@@ -17,15 +17,24 @@ typedef struct {
 void InitEmulator(Emulator *emu) {
     assert(emu);
 
+    // zero out memory
+    emu->mem = CreateMemory();
+    assert(emu->mem);
+
+    // initialise reserved memory locations
+    U16 nMIHandler = 0x0500;
+    U16 resetHandler = 0x0300;
+    U16 brkIrqHandler = 0x0600;
+    StoreMemory(emu->mem, (U8 *)&nMIHandler, NMI_HANDLER, 2, BIG_ENDIAN_6502);
+    StoreMemory(emu->mem, (U8 *)&resetHandler, RESET_HANDLER, 2, BIG_ENDIAN_6502);
+    StoreMemory(emu->mem, (U8 *)&brkIrqHandler, BRK_IRQ_HANDLER, 2, BIG_ENDIAN_6502);
+
     // initialize cpu
     CreateCPU(&emu->cpu);
+    resetCpu(emu);
 
     // initialize opcodes
     InitOpcodeTable(emu->opcodes);
-
-    // zero out memory
-    emu->mem = CreateMemory(); 
-    assert(emu->mem);
 }
 
 void TerminateEmulator(Emulator *emu) {
@@ -39,7 +48,7 @@ void TerminateEmulator(Emulator *emu) {
 void UpdateEmulator(Emulator *emu) {
     assert(emu);
 
-    PrintMemory(emu->mem, 0x0000, 0x00AF);
+    PrintMemory(emu->mem, 0xFFFA, 0xFFFF);
 }
 
 int main(void) {
@@ -50,7 +59,7 @@ int main(void) {
         NOP_ADDR_IMPLICIT,
     };
 
-    StoreMemory(emu.mem, code, 0, 1, LITTLE_ENDIAN);
+    StoreMemory(emu.mem, code, 0, 1, LITTLE_ENDIAN_6502);
     UpdateEmulator(&emu);
     TerminateEmulator(&emu);
 

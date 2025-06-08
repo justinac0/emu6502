@@ -4,32 +4,32 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-#include <byteswap.h>
+// #include <byteswap.h>
 
 U8 *CreateMemory(void) {
-    return (U8*)calloc(DEFAULT_MEMSIZE, sizeof(U8));
+    return (U8 *)calloc(DEFAULT_MEMSIZE, sizeof(U8));
 }
 
 void DestroyMemory(U8 *mem) {
-   free(mem);
+    free(mem);
 }
 
 void StoreMemory(U8 *dst, U8 *src, U32 offset, U32 memsize, U8 endian) {
     assert(dst);
     assert(src);
-    assert(offset + memsize < DEFAULT_MEMSIZE);
+    assert(offset + memsize - 1 <= DEFAULT_MEMSIZE);
 
     // NOTE: switch for loop with some memcpy endian version
     // __builtin_bswap32 (GCC)
-    // 
-    if (endian == LITTLE_ENDIAN) {
+    //
+    if (endian == LITTLE_ENDIAN_6502) {
         for (U32 i = 0; i < memsize; i++) {
-            dst[offset+memsize-i-1] = src[i];
+            dst[offset + memsize - i - 1] = src[i];
         }
     }
 
-    if (endian == BIG_ENDIAN) {
-        memcpy(dst+offset, src, memsize);
+    if (endian == BIG_ENDIAN_6502) {
+        memcpy(dst + offset, src, memsize);
     }
 }
 
