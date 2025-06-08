@@ -54,9 +54,9 @@ void UpdateEmulator(Emulator *emu) {
 
         // lookup opcode
         OpcodeSpec spec = emu->opcodes[*opAddr];
-        printf("%2X ", *opAddr);
+        printf("%2X, %d, %d: ", *opAddr, spec.nbytes, spec.cycles);
 
-        // need to call before handler so that a jump op is done correctly.
+        // need to call before handler so that jump ops overwrite the pc
         emu->cpu.PC += spec.nbytes;
         spec.handler(&emu->cpu, opAddr + 1);
 
@@ -65,7 +65,7 @@ void UpdateEmulator(Emulator *emu) {
         }
     }
 
-    PrintMemory(emu->mem, 0x0000, 0x00FF);
+    PrintMemory(emu->mem, 0x0000, 0x001F);
 }
 
 int main(void) {
@@ -74,10 +74,7 @@ int main(void) {
 
     U8 code[4] = {
         NOP_ADDR_IMPLICIT,
-        NOP_ADDR_IMPLICIT,
-        NOP_ADDR_IMPLICIT,
-        NOP_ADDR_IMPLICIT,
-    };
+        JMP_ADDR_ABSOLUTE, 0x00, 0x00};
 
     StoreMemory(emu.mem, code, 0x0000, 4, BIG_ENDIAN_6502);
     UpdateEmulator(&emu);

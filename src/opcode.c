@@ -445,7 +445,7 @@ void InitOpcodeTable(OpcodeTable table) {
     table[JMP_ADDR_INDIRECT] = InitOpcodeSpec(3, 5, NotImplemented);
 
     // JSR - Jump to Subroutine
-    table[JMP_ADDR_ABSOLUTE] = InitOpcodeSpec(3, 6, NotImplemented);
+    table[JSR_ADDR_ABSOLUTE] = InitOpcodeSpec(3, 6, NotImplemented);
 
     // LDA - Load Accumulator
     table[LDA_ADDR_IMMEDIATE] = InitOpcodeSpec(2, 2, NotImplemented);
