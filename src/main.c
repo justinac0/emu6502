@@ -48,6 +48,8 @@ void TerminateEmulator(Emulator *emu) {
 void UpdateEmulator(Emulator *emu) {
     assert(emu);
 
+    // fetch, excicute, repeat
+    // should be infinite loop, but there is currently no way to stop the program.
     for (U16 i = 0; i < 5; i++) {
         printf("pc: %d\n", emu->cpu.PC);
         U8 *opAddr = emu->mem + emu->cpu.PC;
@@ -62,6 +64,7 @@ void UpdateEmulator(Emulator *emu) {
 
         for (U16 j = 0; j < spec.cycles; j++) {
             // wait?
+            // Not sure how this part should work
         }
     }
 

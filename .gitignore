@@ -32,3 +32,6 @@
 *.app
 
 bin/
+
+#editor configs
+*.vscode
