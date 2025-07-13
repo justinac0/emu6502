@@ -2,6 +2,50 @@
 
 #include <stdio.h>
 #include <assert.h>
+#include <stdlib.h>
+
+// octal lookup (rotated)
+#define CCBBBAAA(a, b, c)\
+    ((((c) << (5)) & 0b11000000) |\
+     (((b) << (2)) & 0b00111000) |\
+     ((a) & 0b00000011))
+
+U8 OpcodeMake(Mnemonic mnemonic,  AddressMode address) {
+    U8 b, c;
+    switch (mnemonic) {
+        case _BRK: case _PHP: case _BPL: case _CLC: case _JSR:
+        case _BIT: case _PLP: case _BMI: case _SEC: case _RTI:
+        case _PHA: case _JMP: case _BVC: case _CLI: case _RTS:
+        case _PLA: case _BVS: case _SEI: case _STY: case _DEY:
+        case _BCC: case _TYA: case _LDY: case _TAY: case _BCS:
+        case _CLV: case _CPY: case _INY: case _BNE: case _CLD:
+        case _CPX: case _INX: case _BEQ: case _SED:
+            c = 0;
+            break;
+        case _ORA: case _AND: case _EOR: case _ADC: case _STA:
+        case _LDA: case _CMP: case _SBC:
+            c = 1;
+            break;
+        case _ASL: case _ROL: case _LSR: case _ROR: case _STX:
+        case _TXA: case _TXS: case _LDX: case _TAX: case _TSX:
+        case _DEC: case _DEX: case _INC:
+            c = 2;
+            break;
+        default:
+            abort();
+    }
+
+    switch (c) {
+        case 0:
+            break;
+        case 1:
+            break;
+        case 2:
+            break;
+    }
+
+    return (U8)CCBBBAAA(c,b,mnemonic);    
+}
 
 // ADC - Add and Carry
 const U8 OPCODE_DEFINE(ADC, ADDR_IMMEDIATE) = 0x69;
@@ -268,33 +312,33 @@ const U8 OPCODE_DEFINE(TYA, ADDR_IMPLICIT) = 0x98;
 
 // Functions
 
-void NotImplemented(CPU* cpu, U8* args) {
+void NotImplemented(CPU* cpu, U8* mem, AddrMode mode) {
     assert(cpu);
-    assert(args);
+    assert(mem);
 
-    printf("not implemented\n");
+    printf("Not Implemented\n");
 }
 
-void brkImplicit(CPU* cpu, U8* args) {
+void brk(CPU* cpu, U8* mem, AddrMode mode) {
     assert(cpu);
-    assert(args);
+    assert(mem);
 
-    printf("brk\n");
+    printf("BRK\n");
 }
 
-void nopImplicit(CPU* cpu, U8* args) {
+void nop(CPU* cpu, U8* mem, AddrMode mode) {
     assert(cpu);
-    assert(args);
+    assert(mem);
 
     printf("NOP\n");
 }
 
-void jmpAbsolute(CPU* cpu, U8* args) {
+void jmp(CPU* cpu, U8* mem, AddrMode mode) {
     assert(cpu);
-    assert(args);
+    assert(mem);
 
-    printf("jmp\n");
-    cpu->PC = args[0] | ((U16)args[1] >> 8);
+    printf("JMP\n");
+    cpu->PC = mem[0] | ((U16)mem[1] >> 8);
 }
 
 // -----------------------------------
@@ -312,10 +356,6 @@ OpcodeSpec InitOpcodeSpec(U8 nbytes, U8 cycles, OpcodeCB cb) {
 // Opcode Table
 // -----------------------------------
 void InitOpcodeTable(OpcodeTable table) {
-    // for (U16 i = 0; i < OPCODE_LENGTH; i++) {
-    //     table[i] = NULL;
-    // }
-
     // ADC - Add and Carry
     table[ADC_ADDR_IMMEDIATE] = InitOpcodeSpec(2, 2, NotImplemented);
     table[ADC_ADDR_ZERO_PAGE] = InitOpcodeSpec(2, 3, NotImplemented);
@@ -366,7 +406,7 @@ void InitOpcodeTable(OpcodeTable table) {
     table[BPL_ADDR_RELATIVE] = InitOpcodeSpec(2, 2, NotImplemented);  // (+1 if branch succeeds, + 2 if to a new page)
 
     // BRK - Force Interrupt
-    table[BRK_ADDR_IMPLICIT] = InitOpcodeSpec(1, 7, brkImplicit);
+    table[BRK_ADDR_IMPLICIT] = InitOpcodeSpec(1, 7, brk);
 
     // BVC - Branch if Overflow Clear
     table[BVC_ADDR_RELATIVE] = InitOpcodeSpec(2, 2, NotImplemented);  // (+1 if branch succeeds, + 2 if to a new page)
@@ -441,7 +481,7 @@ void InitOpcodeTable(OpcodeTable table) {
     table[INY_ADDR_IMPLICIT] = InitOpcodeSpec(1, 2, NotImplemented);
 
     // JMP - Jump
-    table[JMP_ADDR_ABSOLUTE] = InitOpcodeSpec(3, 3, jmpAbsolute);
+    table[JMP_ADDR_ABSOLUTE] = InitOpcodeSpec(3, 3, jmp);
     table[JMP_ADDR_INDIRECT] = InitOpcodeSpec(3, 5, NotImplemented);
 
     // JSR - Jump to Subroutine
@@ -479,7 +519,7 @@ void InitOpcodeTable(OpcodeTable table) {
     table[LSR_ADDR_ABSOLUTE_X] = InitOpcodeSpec(3, 7, NotImplemented);
 
     // NOP - No Operation
-    table[NOP_ADDR_IMPLICIT] = InitOpcodeSpec(1, 2, nopImplicit);
+    table[NOP_ADDR_IMPLICIT] = InitOpcodeSpec(1, 2, nop);
 
     // Logical Inclusive OR
     table[ORA_ADDR_IMMEDIATE] = InitOpcodeSpec(2, 2, NotImplemented);

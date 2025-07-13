@@ -1,27 +1,110 @@
-// ref https://www.nesdev.org/obelisk-6502-guide/reference.html
-
+// ref: https://www.nesdev.org/obelisk-6502-guide/reference.html
 #ifndef OPCODE_H
-#define OPCODE_H
+#define OPCODE_Hy
 
 #include <6502/types.h>
 #include <6502/cpu.h>
 
 #define OPCODE_DEFINE(NAME, ADDR) NAME##_##ADDR
 
-// Addressing Modes
-#define ADDR_IMPLICIT
-#define ADDR_ACCUMULATOR
-#define ADDR_IMMEDIATE
-#define ADDR_ZERO_PAGE
-#define ADDR_ZERO_PAGE_X
-#define ADDR_ZERO_PAGE_Y
-#define ADDR_RELATIVE
-#define ADDR_ABSOLUTE
-#define ADDR_ABSOLUTE_X
-#define ADDR_ABSOLUTE_Y
-#define ADDR_INDIRECT
-#define ADDR_INDEXED_INDIRECT
-#define ADDR_INDIRECT_INDEXED
+typedef U8 Mnemonic;
+
+// mnemonics
+// c = 0
+#define _BRK (0)
+#define _PHP (1)
+#define _BPL (2)
+#define _CLC (3)
+#define _JSR (4)
+#define _BIT (5)
+#define _PLP (6)
+#define _BMI (7)
+#define _SEC (8)
+#define _RTI (9)
+#define _PHA (10)
+#define _JMP (11)
+#define _BVC (12)
+#define _CLI (13)
+#define _RTS (14)
+#define _PLA (15)
+#define _BVS (16)
+#define _SEI (17)
+#define _STY (18)
+#define _DEY (19)
+#define _BCC (20)
+#define _TYA (21)
+#define _LDY (22)
+#define _TAY (23)
+#define _BCS (24)
+#define _CLV (25)
+#define _CPY (26)
+#define _INY (27)
+#define _BNE (28)
+#define _CLD (29)
+#define _CPX (30)
+#define _INX (31)
+#define _BEQ (32)
+#define _SED (33)
+
+// c = 1
+#define _ORA (34)
+#define _AND (35)
+#define _EOR (36)
+#define _ADC (37)
+#define _STA (38)
+#define _LDA (39)
+#define _CMP (40)
+#define _SBC (41)
+
+// c = 2
+#define _ASL (42)
+#define _ROL (43)
+#define _LSR (44)
+#define _ROR (45)
+#define _STX (46)
+#define _TXA (47)
+#define _TXS (48)
+#define _LDX (49)
+#define _TAX (50)
+#define _TSX (51)
+#define _DEC (52)
+#define _DEX (53)
+#define _INC (54)
+
+typedef enum {
+    MODE_IMPLICIT,
+    MODE_ACCUMULATOR,
+    MODE_IMMEDIATE,
+    MODE_ZERO_PAGE,
+    MODE_ZERO_PAGE_X,
+    MODE_ZERO_PAGE_Y,
+    MODE_RELATIVE,
+    MODE_ABSOLUTE,
+    MODE_ABSOLUTE_X,
+    MODE_ABSOLUTE_Y,
+    MODE_INDIRECT,
+    MODE_INDEXED_INDIRECT,
+    MODE_INDIRECT_INDEXED,
+} AddressMode;
+
+U8 OpcodeMake(Mnemonic mnemonic,  AddressMode address);
+
+typedef enum {
+    ADDR_IMPLICIT,
+    ADDR_ACCUMULATOR,
+    ADDR_IMMEDIATE,
+    ADDR_ZERO_PAGE,
+    ADDR_ZERO_PAGE_X,
+    ADDR_ZERO_PAGE_Y,
+    ADDR_RELATIVE,
+    ADDR_ABSOLUTE,
+    ADDR_ABSOLUTE_X,
+    ADDR_ABSOLUTE_Y,
+    ADDR_INDIRECT,
+    ADDR_INDEXED_INDIRECT,
+    ADDR_INDIRECT_INDEXED,
+} AddrMode;
+
 
 // Opcode externs definitions
 //
@@ -314,7 +397,8 @@ extern const U8 OPCODE_DEFINE(TYA, ADDR_IMPLICIT);
 #define PF_OVERFLOW (0x40)
 #define PF_NEGATIVE (0x80)
 
-typedef void (*OpcodeCB)(CPU *, U8 *);
+// CPU, MEMORY, MODE
+typedef void (*OpcodeCB)(CPU *, U8 *, AddrMode);
 typedef struct OpcodeSpec {
     U8 nbytes;
     U8 cycles;

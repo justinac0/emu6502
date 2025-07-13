@@ -53,7 +53,7 @@ void UpdateEmulator(Emulator *emu) {
 
         // need to call before handler so that jump ops overwrite the pc
         emu->cpu.PC += spec.nbytes;
-        spec.handler(&emu->cpu, opAddr + 1);
+        spec.handler(&emu->cpu, opAddr + 1, ADDR_IMPLICIT);
 
         for (U16 j = 0; j < spec.cycles; j++) {
             // wait?
@@ -82,6 +82,8 @@ void LoadImage(Emulator *emu) {
 }
 
 int main(void) {
+    OpcodeMake(_AND, _IMMEDIATE);
+
     Emulator emu;
     InitEmulator(&emu);
 
